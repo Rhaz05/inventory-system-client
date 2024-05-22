@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply text-xl font-medium capitalize;
+    }
+}
+
+.link {
+    @apply p-2.5 flex rounded-md gap-6 items-center md:cursor-pointer 
+    cursor-default duration-300 font-medium;
+}
+
+.active {
+    @apply bg-green-100/65 text-teal-700 font-medium;
+}
+
+.disabled {
+    @apply text-gray-800 border border-gray-800
+}
+
+.card {
+    
+}
