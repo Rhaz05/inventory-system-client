@@ -9,12 +9,9 @@ import {
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 
-const Dropdown = ({ label, options }) => {
-  // console.log(options);
+const Dropdown = ({ label, options, selected, setSelected }) => {
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState(options[0]);
 
-  // console.log("inside Dropdown", options[0]);
   const filteredData =
     query === ""
       ? options
@@ -27,7 +24,7 @@ const Dropdown = ({ label, options }) => {
       <label className="text-teal-400 text-md z-10 font-medium relative top-3 ml-[7px] px-[3px] bg-white w-fit capitalize">
         {label}
       </label>
-      <Combobox value={selected} onChange={(value) => setSelected(value)}>
+      <Combobox value={selected} onChange={setSelected}>
         <div className="relative">
           <ComboboxInput
             className="rounded-md border py-2 pl-3 pr-10 border-teal-400 text-sm/6 text-gray-500 focus:outline-none w-full shrink-0"
