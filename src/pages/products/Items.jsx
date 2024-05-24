@@ -15,6 +15,7 @@ import ToastDisplay from "../../components/ToastDisplay";
 //icons
 import { IoMdAdd } from "react-icons/io";
 import { FaEdit, FaEye, FaSpinner, FaEyeSlash } from "react-icons/fa";
+import { SlArrowRight } from "react-icons/sl";
 
 const Types = [
   { id: 1, name: "MATERIAL" },
@@ -27,7 +28,7 @@ const Items = () => {
 
   const [brand, setBrand] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedType, setSelectedType] = useState(Types[0]);
+  const [selectedType, setSelectedType] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [description, setDescription] = useState("");
@@ -46,7 +47,7 @@ const Items = () => {
         });
         if (isMounted) {
           setBrand(res.data.data);
-          setSelectedBrand(res.data.data[0]);
+          setSelectedBrand([]);
           setLoading(false);
           setTableData(result.data.data);
         }
@@ -90,6 +91,25 @@ const Items = () => {
         toast.error("Duplicate Entry", {
           theme: "dark",
         });
+      }
+    }
+  };
+
+  const statusUpdate = async (id, statusData) => {
+    try {
+      await axiosPrivate.patch(`/items/status/${id}`, {
+        status: statusData,
+      });
+      const res = await axiosPrivate.get("/items");
+      setTableData(res.data.data);
+      if (res.data.msg === "success") {
+        toast.success("Status Updated", { theme: "dark" });
+      }
+    } catch (err) {
+      if (!err?.response) {
+        toast.error("No server Response");
+      } else if (err.response?.status === 401) {
+        toast.error("Unauthorized", { theme: "dark" });
       }
     }
   };
@@ -156,7 +176,7 @@ const Items = () => {
               />
             )}
 
-            <NavLink to={`/edit/items/${id}`}>
+            <NavLink to={`/items`}>
               <FaEdit
                 size={17}
                 className="text-gray-700 mr-auto cursor-pointer"
@@ -168,8 +188,15 @@ const Items = () => {
     },
   ];
 
+  const activeBrands = brand.filter((b) => b.status === "ACTIVE");
+
   return (
     <>
+      <div className="py-5 ml-6 flex">
+        <h1 className="text-4xl font-thin py-auto bg-white text-teal-400">
+          items
+        </h1>
+      </div>
       <div className="flex flex-col xl:flex-row">
         <div className="flex-1 h-full order-2 xl:order-1">
           <Card>
@@ -186,6 +213,7 @@ const Items = () => {
                     options={Types}
                     selected={selectedType}
                     setSelected={setSelectedType}
+                    placeholder={"Select Type"}
                   />
                 </div>
                 <div className="flex-1">
@@ -196,9 +224,10 @@ const Items = () => {
                   ) : (
                     <Dropdown
                       label={"Brand:"}
-                      options={brand}
+                      options={activeBrands}
                       selected={selectedBrand}
                       setSelected={setSelectedBrand}
+                      placeholder={"Select Brand"}
                     />
                   )}
                 </div>

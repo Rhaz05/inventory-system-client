@@ -9,7 +9,7 @@ import {
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 
-const Dropdown = ({ label, options, selected, setSelected }) => {
+const Dropdown = ({ label, options, selected, setSelected, placeholder }) => {
   const [query, setQuery] = useState("");
 
   const filteredData =
@@ -30,6 +30,8 @@ const Dropdown = ({ label, options, selected, setSelected }) => {
             className="rounded-md border py-2 pl-3 pr-10 border-teal-400 text-sm/6 text-gray-500 focus:outline-none w-full shrink-0"
             displayValue={(data) => data?.name}
             onChange={(event) => setQuery(event.target.value)}
+            placeholder={placeholder}
+            required
           />
           <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-2.5">
             <ChevronDownIcon className="w-5 h-5 text-teal-400 hover:text-teal-500" />

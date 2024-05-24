@@ -18,6 +18,7 @@ const Input = ({ eventHandler, label, value, id }) => {
         className="border-teal-400 h-10 px-[10px] py-[11px] text-md bg-white border rounded-[5px] text-gray-600 focus:outline-none placeholder:text-black/25"
         id={id}
         required
+        autoComplete="off"
       />
     </div>
   );

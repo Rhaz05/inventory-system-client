@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="absolute flex w-full bottom-0 py-5">
+    <div className="flex w-full py-9">
       <span className="mx-auto text-sm">
         Copyright &copy; Powered by{" "}
         <a
